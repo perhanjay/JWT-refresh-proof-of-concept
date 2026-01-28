@@ -1,37 +1,127 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# My New Nest App
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
-
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+A modern NestJS application with authentication, user management, and JWT-based security.
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+This is a production-ready NestJS application built with TypeScript featuring:
+
+- **Authentication & Authorization**: Complete JWT-based authentication system with refresh tokens
+- **User Management**: User registration, login, and profile management
+- **Security**: Argon2 password hashing, JWT guards, and cookie-based session management
+- **Database**: TypeORM integration with PostgreSQL support
+- **Validation**: Class-validator for request validation
+- **Testing**: Unit and e2e testing setup with Jest
+
+## Features
+
+### 🔐 Authentication
+- Local authentication with username/password
+- JWT access tokens and refresh tokens
+- Passport strategies for multiple authentication methods
+- Password hashing with Argon2
+- Cookie-based session management
+- Public routes decorator for bypassing authentication
+
+### 👤 User Management
+- User registration and login
+- User entity with TypeORM
+- User service for CRUD operations
+
+### 🛡️ Security
+- JWT guards for protecting routes
+- Local authentication guard
+- Custom decorators for public routes
+- Cookie interceptor for secure token handling
+
+### 🏗️ Architecture
+- Modular architecture with separate auth and users modules
+- DTOs for request validation
+- TypeScript decorators and guards
+- Clean separation of concerns
+
+## Prerequisites
+
+Before running this application, make sure you have the following installed:
+
+- Node.js (v16 or higher)
+- npm or yarn
+- PostgreSQL database
+- Git
+
+## Environment Variables
+
+Create a `.env` file in the root directory with the following variables:
+
+```bash
+# Database
+DATABASE_HOST=localhost
+DATABASE_PORT=5432
+DATABASE_USERNAME=your_username
+DATABASE_PASSWORD=your_password
+DATABASE_NAME=your_database_name
+
+# JWT
+JWT_SECRET=your_jwt_secret_key_here
+JWT_REFRESH_SECRET=your_refresh_secret_key_here
+
+# Other
+PORT=3000
+```
 
 ## Project setup
 
 ```bash
+# Clone the repository
+$ git clone <your-repo-url>
+$ cd my-new-nest-app
+
+# Install dependencies
 $ npm install
 ```
 
-## Compile and run the project
+## API Endpoints
+
+### Authentication
+- `POST /auth/register` - Register a new user
+- `POST /auth/login` - Login with credentials
+- `POST /auth/logout` - Logout and clear tokens
+- `POST /auth/refresh` - Refresh access token
+
+### Users
+- `GET /users/profile` - Get current user profile (protected)
+
+## Project Structure
+
+```
+src/
+├── auth/                    # Authentication module
+│   ├── interceptors/        # Cookie management interceptors
+│   ├── strategies/          # Passport authentication strategies
+│   ├── types/              # Type definitions for auth
+│   ├── auth.controller.ts   # Auth endpoints
+│   ├── auth.service.ts      # Auth business logic
+│   ├── auth.module.ts       # Auth module configuration
+│   └── *.guard.ts          # Authentication guards
+├── users/                   # User management module
+│   ├── user.entity.ts       # User database entity
+│   ├── users.service.ts     # User business logic
+│   └── users.module.ts      # Users module configuration
+├── app.module.ts            # Root application module
+└── main.ts                  # Application entry point
+```
+
+## Database Schema
+
+### Users Table
+- `id` - Primary key (UUID)
+- `email` - Unique email address
+- `password` - Hashed password (Argon2)
+- `refreshTokenHash` - Hashed refresh token
+- `createdAt` - Creation timestamp
+- `updatedAt` - Last update timestamp
+
+## Development
 
 ```bash
 # development
@@ -44,7 +134,7 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
-## Run tests
+## Testing
 
 ```bash
 # unit tests
@@ -55,44 +145,51 @@ $ npm run test:e2e
 
 # test coverage
 $ npm run test:cov
+
+# watch mode for tests
+$ npm run test:watch
 ```
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+## Code Quality
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+# lint code
+$ npm run lint
+
+# format code
+$ npm run format
+
+# build project
+$ npm run build
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+## Technology Stack
 
-## Resources
+- **Framework**: NestJS
+- **Language**: TypeScript
+- **Database**: PostgreSQL with TypeORM
+- **Authentication**: Passport.js with JWT
+- **Password Hashing**: Argon2
+- **Validation**: class-validator & class-transformer
+- **Testing**: Jest
+- **Linting**: ESLint with Prettier
 
-Check out a few resources that may come in handy when working with NestJS:
+## Security Features
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+- **Password Security**: Argon2 hashing algorithm
+- **JWT Tokens**: Secure access and refresh token implementation
+- **Guards**: Route protection with custom guards
+- **Validation**: Input validation with class-validator
+- **Environment Variables**: Sensitive data stored in environment variables
 
-## Support
+## Contributing
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
 ## License
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+This project is licensed under the UNLICENSED License.
